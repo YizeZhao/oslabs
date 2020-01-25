@@ -131,12 +131,13 @@ code Synch
 
       method Unlock ()
           var
-            oldIntStat = int
-            t: ptr to thread
+            oldIntStat: int
+            t: ptr to Thread
           -- check for logic error
-          if currentThread != heldby
+          if self.IsHeldByCurrentThread() == false
             FatalError("Logic error in unlock: the thread requested for unlock is not locked")
           endIf
+	  oldIntStat = SetInterruptsTo (DISABLED)
           -- let t point to next thread
           t = waitingThreads.Remove()
           if t != null
@@ -146,6 +147,7 @@ code Synch
           endIf
 
           heldby = null
+	  oldIntStat = SetInterruptsTo (oldIntStat)
 
         endMethod
 
