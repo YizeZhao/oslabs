@@ -344,7 +344,7 @@ code Main
       full = new Semaphore
       empty = new Semaphore
       full.Init(0)
-      empty.Init(0)
+      empty.Init(BUFFER_SIZE)
 
       mu = new Mutex
       mu.Init()
