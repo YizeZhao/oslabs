@@ -348,7 +348,7 @@ code Main
       empty.Init(0)
 
       mu = new Mutex
-      mu.init()
+      mu.Init()
     endFunction
 
   function Producer (myId: int)
