@@ -341,7 +341,7 @@ code Main
       thArray[7].Fork (Producer, 5)
 
 
-            full = new Semaphore
+      full = new Semaphore
       empty = new Semaphore
       full.Init(0)
       empty.Init(0)
