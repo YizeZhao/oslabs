@@ -108,21 +108,21 @@ code Synch
             oldIntStat: int
 
           -- check thread request to lock is not locked already
-          if self.IsHeldByCurrentThread() == true
-            FatalError("Logic error in lock: the thread requested for lock is already locked")
-          endIf
-          -- disable interrupts
-          oldIntStat = SetInterruptsTo (DISABLED)
+          while (self.IsHeldByCurrentThread() != true)
+            --FatalError("Logic error in lock: the thread requested for lock is already locked")
+            --endIf
+            -- disable interrupts
+            oldIntStat = SetInterruptsTo (DISABLED)
 
-          -- when count < 0 in semaphore.down
-          if heldby != null
-            waitingThreads.AddToEnd (currentThread)
-            currentThread.Sleep ()
+            -- when count < 0 in semaphore.down
+            if heldby != null
+              waitingThreads.AddToEnd (currentThread)
+              currentThread.Sleep ()
 
-          else
-            heldby = currentThread
-          endIf
-
+            else
+              heldby = currentThread
+            endIf
+          endWhile
           -- back to original interrupt status
           oldIntStat = SetInterruptsTo (oldIntStat)
         endMethod
