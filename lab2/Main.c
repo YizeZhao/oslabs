@@ -2,7 +2,7 @@ code Main
 
   -- OS Class: Project 2
   --
-  -- <PUT YOUR NAME HERE>
+  -- <Yize Zhao>
   --
   -- This package contains the following:
   --     SimpleThreadExample
@@ -21,9 +21,9 @@ code Main
 
       -----  Uncomment any one of the following to perform the desired test  -----
 
-      SimpleThreadExample ()
+      --SimpleThreadExample ()
       -- MoreThreadExamples ()
-      -- TestMutex ()
+      TestMutex ()
       -- ProducerConsumer ()
 
       ThreadFinish ()
