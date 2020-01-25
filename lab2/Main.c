@@ -340,15 +340,18 @@ code Main
       thArray[7].Init ("Producer-E                         ")
       thArray[7].Fork (Producer, 5)
 
-      ThreadFinish ()
 
-      full = new Semaphore
+            full = new Semaphore
       empty = new Semaphore
       full.Init(0)
       empty.Init(0)
 
       mu = new Mutex
       mu.Init()
+
+      ThreadFinish ()
+
+
     endFunction
 
   function Producer (myId: int)
