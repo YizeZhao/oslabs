@@ -308,6 +308,9 @@ code Main
     bufferNextIn: int = 0
     bufferNextOut: int = 0
     thArray: array [8] of Thread = new array of Thread { 8 of new Thread }
+    full: Semaphore
+    empty: Semaphore
+    mu: Mutex
 
   function ProducerConsumer ()
 
@@ -338,6 +341,14 @@ code Main
       thArray[7].Fork (Producer, 5)
 
       ThreadFinish ()
+
+      full = new Semaphore
+      empty = new Semaphore
+      full.Init(0)
+      empty.Init(0)
+
+      mu = new Mutex
+      mu.init()
     endFunction
 
   function Producer (myId: int)
@@ -346,6 +357,8 @@ code Main
         c: char = intToChar ('A' + myId - 1)
       for i = 1 to 5
         -- Perform synchroniztion...
+        empty.Down()
+        mu.Lock()
 
         -- Add c to the buffer
         buffer [bufferNextIn] = c
@@ -356,6 +369,8 @@ code Main
         PrintBuffer (c)
 
         -- Perform synchronization...
+        mu.Unlock()
+        full.Up()
 
       endFor
     endFunction
@@ -364,7 +379,11 @@ code Main
       var
         c: char
       while true
+
         -- Perform synchroniztion...
+        full.Down()
+        mu.Lock()
+
 
         -- Remove next character from the buffer
         c = buffer [bufferNextOut]
@@ -375,6 +394,8 @@ code Main
         PrintBuffer (c)
 
         -- Perform synchronization...
+        mu.Unlock()
+        empty.Up()
 
       endWhile
     endFunction
