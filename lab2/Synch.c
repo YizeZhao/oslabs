@@ -3,6 +3,7 @@ code Synch
   -- OS Class: Project 2
   --
   -- <Yize Zhao>
+  -- sat afternoon
 
 -----------------------------  Semaphore  ---------------------------------
 
