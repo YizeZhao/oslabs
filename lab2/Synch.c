@@ -96,25 +96,66 @@ code Synch
       ----------  Mutex . Init  ----------
 
       method Init ()
-          FatalError ("Unimplemented method")
+          waitingThreads = new List[Thread]
+          -- variable indicates the thread that holds the lock
+          heldby = null
         endMethod
 
       ----------  Mutex . Lock  ----------
 
       method Lock ()
-          FatalError ("Unimplemented method")
+          var
+            oldIntStat: int
+
+          -- check thread request to lock is not locked already
+          if self.IsHeldByCurrentThread() == true
+            FatalError("Logic error in lock: the thread requested for lock is already locked")
+          endIf
+          -- disable interrupts
+          oldIntStat = SetInterruptsTo (DISABLED)
+
+          -- when count < 0 in semaphore.down
+          if heldby != null
+            waitingThreads.AddToEnd (currentThread)
+            currentThread.Sleep ()
+
+          else
+            heldby = currentThread
+          endIf
+
+          -- back to original interrupt status
+          oldIntStat = SetInterruptsTo (oldIntStat)
         endMethod
 
       ----------  Mutex . Unlock  ----------
 
       method Unlock ()
-          FatalError ("Unimplemented method")
+          var
+            oldIntStat = int
+            t: ptr to thread
+          -- check for logic error
+          if currentThread != heldby
+            FatalError("Logic error in unlock: the thread requested for unlock is not locked")
+          endIf
+          -- let t point to next thread
+          t = waitingThreads.Remove()
+          if t != null
+            -- set stastus to ready and move to end of readylist
+            t.status = READY
+            readyList.AddToEnd(t)
+          endIf
+
+          heldby = null
+
         endMethod
 
       ----------  Mutex . IsHeldByCurrentThread  ----------
 
       method IsHeldByCurrentThread () returns bool
-          FatalError ("Unimplemented method")
+          -- FatalError ("Unimplemented method")
+          if currentThread == heldby
+            return true
+          endIf
           return false
         endMethod
 
