@@ -308,11 +308,15 @@ code Main
     bufferNextIn: int = 0
     bufferNextOut: int = 0
     thArray: array [8] of Thread = new array of Thread { 8 of new Thread }
-    full: Semaphore
-    empty: Semaphore
-    mu: Mutex
+    full: Semaphore = new Semaphore
+    empty: Semaphore = new Semaphore
+    mu: Mutex = new Mutex
 
   function ProducerConsumer ()
+
+      full.Init(0)
+      empty.Init(BUFFER_SIZE)
+      mu.Init()
 
       print ("     ")
 
@@ -341,13 +345,6 @@ code Main
       thArray[7].Fork (Producer, 5)
 
 
-      full = new Semaphore
-      empty = new Semaphore
-      full.Init(0)
-      empty.Init(BUFFER_SIZE)
-
-      mu = new Mutex
-      mu.Init()
 
       ThreadFinish ()
 
