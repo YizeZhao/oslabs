@@ -23,7 +23,7 @@ code Main
 
       --SimpleThreadExample ()
       -- MoreThreadExamples ()
-      -- TestMutex ()
+      --TestMutex ()
       ProducerConsumer ()
 
       ThreadFinish ()
