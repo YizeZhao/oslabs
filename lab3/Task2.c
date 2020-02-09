@@ -139,13 +139,14 @@ code Main
 
     barber_ready_sem.Up()
     -- cut hair
-    customer_status_sem.Down()
+    -- customer_status_sem.Down()
     currentThread.Yield()
-    customer_status_sem.Down()
+    -- customer_status_sem.Down()
     barber_done_sem.Up()
 
     sb.barberStatus = End
     sb.printBarberStatus()
+    customer_status_sem.Up()
   endWhile
 endFunction
 
