@@ -169,7 +169,7 @@ function Customer(n: int)
     sb.printCustomerStatus(n)
 
     customer_status_sem.Up()
-    currentThread.Yield()
+    --currentThread.Yield()
 
     sb.customerStatus[n] = 'F'
     sb.printCustomerStatus(n)
