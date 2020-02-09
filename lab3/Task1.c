@@ -124,7 +124,7 @@ code Main
       status = new array of int {5 of THINKING}
       SleepAwake = new Condition
       SleepAwake.Init()
-      MutexLock = = new Mutex
+      MutexLock =  new Mutex
       MutexLock = Init()
 
       endMethod
@@ -162,7 +162,7 @@ code Main
       if status[Left] == HUNGRY || status[Right] == HUNGRY
       SleepAwake.Broadcast(&MutexLock)
       MutexLock.Unlock()
-
+      endIf
       endMethod
 
     method PrintAllStatus ()
