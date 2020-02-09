@@ -2,7 +2,7 @@ code Main
 
   -- OS Class: Project 3
   --
-  -- <PUT YOUR NAME HERE>
+  -- <Yize Zhao>
   --
 
   -- This package contains the following:
@@ -104,7 +104,11 @@ code Main
   class ForkMonitor
     superclass Object
     fields
-      status: array [5] of int -- For each philosopher: HUNGRY, EATING, or THINKING
+      -- For each philosopher: HUNGRY, EATING, or THINKING
+      status: array [5] of int = new array of int {5 of THINKING}
+      SleepAwake: Condition = new Condition
+      MutexLock: Mutex = new Mutex
+
     methods
       Init ()
       PickupForks (p: int)
@@ -117,16 +121,45 @@ code Main
     method Init ()
       -- Initialize so that all philosophers are THINKING.
       -- ...unimplemented...
+      SleepAwake.Init()
+      MutexLock = Init()
+
       endMethod
 
     method PickupForks (p: int)
       -- This method is called when philosopher 'p' wants to eat.
       -- ...unimplemented...
+      var
+        Left: int = (p+4)%5
+        Right: int = (p+1)%5
+
+      -- lock before anything
+      MutexLock.Lock()
+      status[p] = HUNGRY
+      mon.PrintAllStatus()
+
+      while (status[Left] == EATING || status[Right] == EATING)
+        SleepAwake.Wait(&MutexLock)
+      endWhile
+
+      status[p] = EATING
+      mon.PrintAllStatus()
+      MutexLock.Unlock()
       endMethod
 
     method PutDownForks (p: int)
       -- This method is called when the philosopher 'p' is done eating.
       -- ...unimplemented...
+      var
+        Left: int = (p+4)%5
+        Right: int = (p+1)%5
+      MutexLock.Lock()
+      status[p] = THINKING
+      mon.PrintAllStatus()
+      if status[Left] == HUNGRY || status[Right] == HUNGRY
+      SleepAwake.Broadcast(&MutexLock)
+      MutexLock.Unlock()
+
       endMethod
 
     method PrintAllStatus ()
