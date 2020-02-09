@@ -150,7 +150,7 @@ endFunction
 function Customer(n: int)
   mutexlock.Lock()
   sb.customerStatus[n] = 'E'
-  sb.printCustomerStatus(p)
+  sb.printCustomerStatus(n)
   if (waiting_customer < nrChairs)
     waiting_customer = waiting_customer + 1
     sb.availChairs = sb.availChairs - 1
@@ -164,10 +164,14 @@ function Customer(n: int)
     sb.customerStatus[n] = 'B'
     sb.printCustomerStatus(n)
 
+    customer_status_sem.Up()
+    currentThread.Yield()
+
     sb.customerStatus[n] = 'F'
     sb.printCustomerStatus(n)
 
-    barber_done_sem.Up()
+    barber_done_sem.Down()
+    customer_status_sem.Up()
   else
     mutexlock.Unlock()  -- do not get a haircut
   endIf
