@@ -161,8 +161,9 @@ code Main
       mon.PrintAllStatus()
       if status[Left] == HUNGRY || status[Right] == HUNGRY
       SleepAwake.Broadcast(&MutexLock)
-      MutexLock.Unlock()
       endIf
+      MutexLock.Unlock()
+
       endMethod
 
     method PrintAllStatus ()
