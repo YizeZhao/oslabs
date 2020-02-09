@@ -261,16 +261,21 @@ endFunction
     endMethod
 
     method printBarberStatus()
+      var oldStatus: int
+      oldStatus = SetInterruptsTo (DISABLED)
       self.printChairs()
       if self.barberStatus == Start
          print("Start\n")
       else
          print("End\n")
       endIf
+      oldStatus = SetInterruptsTo (oldStatus)
     endMethod
 
     method printCustomerStatus(customer: int)
       var i: int
+        oldStatus: int
+      oldStatus = SetInterruptsTo (DISABLED)
       self.printChairs()
       print("      \t")
       for i = 0 to nrCustomers - 1
@@ -282,10 +287,13 @@ endFunction
         printChar('\t')
       endFor
       nl()
+        oldStatus = SetInterruptsTo (oldStatus)
     endMethod
 
     method printChairs()
       var i: int
+        oldStatus: int
+      oldStatus = SetInterruptsTo (DISABLED)
       for i = self.availChairs + 1 to nrChairs
         printChar('X')
       endFor
@@ -293,6 +301,7 @@ endFunction
         printChar('-')
       endFor
       printChar(' ')
+      oldStatus = SetInterruptsTo (oldStatus)
     endMethod
 
   endBehavior
