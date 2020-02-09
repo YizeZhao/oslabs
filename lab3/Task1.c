@@ -125,7 +125,7 @@ code Main
       SleepAwake = new Condition
       SleepAwake.Init()
       MutexLock =  new Mutex
-      MutexLock = Init()
+      MutexLock.Init()
 
       endMethod
 
