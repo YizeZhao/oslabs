@@ -69,7 +69,7 @@ code Main
     barber_ready_sem.Init(0)
 
     barber_done_sem = new Semaphore
-    barber_done_sem.Init()
+    barber_done_sem.Init(0)
 
     customer_status_sem = new Semaphore
     customer_status_sem.Init(0)
@@ -100,30 +100,82 @@ code Main
 
     barber = new Thread
     barber.Init("Barber")
-    barber.Fork(sb.Barber)
+    barber.Fork(Barber, nrChairs)
 
     customerList[0].Init("C1")
-    customerList[0].Fork(sb.Customer, 0)
+    customerList[0].Fork(Customer, 0)
     customerList[1].Init("C2")
-    customerList[1].Fork(sb.Customer, 1)
+    customerList[1].Fork(Customer, 1)
     customerList[2].Init("C3")
-    customerList[2].Fork(sb.Customer, 2)
+    customerList[2].Fork(Customer, 2)
     customerList[3].Init("C4")
-    customerList[3].Fork(sb.Customer, 3)
+    customerList[3].Fork(Customer, 3)
     customerList[4].Init("C5")
-    customerList[4].Fork(sb.Customer, 4)
+    customerList[4].Fork(Customer, 4)
     customerList[5].Init("C6")
-    customerList[5].Fork(sb.Customer, 5)
+    customerList[5].Fork(Customer, 5)
     customerList[6].Init("C7")
-    customerList[6].Fork(sb.Customer, 6)
+    customerList[6].Fork(Customer, 6)
     customerList[7].Init("C8")
-    customerList[7].Fork(sb.Customer, 7)
+    customerList[7].Fork(Customer, 7)
     customerList[8].Init("C9")
-    customerList[8].Fork(sb.Customer, 8)
+    customerList[8].Fork(Customer, 8)
     customerList[9].Init("C10")
-    customerList[9].Fork(sb.Customer, 9)
+    customerList[9].Fork(Customer, 9)
 
   endFunction
+
+  function Barber(nChairs: int)
+  while true
+    waiting_customer_sem.Down()
+    mutexlock.Lock()
+    waiting_customer = waiting_customer - 1
+    sb.availChairs = sb.availChairs + 1
+    mutexlock.Unlock()
+    sb.barberStatus = Start
+    sb.printBarberStatus()
+
+    barber_ready_sem.Up()
+    -- cut hair
+    customer_status_sem.Down()
+    currentThread.Yield()
+    customer_status_sem.Down()
+    barber_done_sem.Up()
+
+    sb.barberStatus = End
+    sb.printBarberStatus()
+  endWhile
+endFunction
+
+function Customer(n: int)
+  mutexlock.Lock()
+  sb.customerStatus[n] = 'E'
+  sb.printCustomerStatus(p)
+  if (waiting_customer < nrChairs)
+    waiting_customer = waiting_customer + 1
+    sb.availChairs = sb.availChairs - 1
+    sb.customerStatus[n] = 'S'
+    sb.printCustomerStatus(n)
+    mutexlock.Unlock()
+
+    waiting_customer_sem.Up()
+    barber_ready_sem.Down()
+
+    sb.customerStatus[n] = 'B'
+    sb.printCustomerStatus(n)
+
+    sb.customerStatus[n] = 'F'
+    sb.printCustomerStatus(n)
+
+    barber_done_sem.Up()
+  else
+    mutexlock.Unlock()  -- do not get a haircut
+  endIf
+
+  customer_status_sem.Down()
+  sb.customerStatus[n] = 'L'
+  sb.printCustomerStatus(n)
+endFunction
 
   -- implementation of SleepingBarber class
   behavior SleepingBarber
@@ -132,59 +184,6 @@ code Main
       self.customerStatus = cStat
       self.availChairs = numOfChair
     endMethod
-
-    method Barber()
-      while True
-        waiting_customer_sem.Down()
-        mutexlock.Lock()
-        waiting_customer = waiting_customer - 1
-        self.availChairs = self.availChairs + 1
-        mutexlock.Unlock()
-        self.barberStatus = Start
-        self.printBarberStatus()
-
-        barber_ready_sem.Up()
-        -- cut hair
-        customer_status_sem.Down()
-        currentThread.Yield()
-        customer_status_sem.Down()
-        barber_done_sem.Up()
-
-        self.barberStatus = End
-        self.printBarberStatus()
-      endWhile
-    endMethod
-
-    method Customer(p: int)
-      mutexlock.Lock()
-      self.cStat[p] = 'E'
-      self.printCustomerStatus(p)
-      if (waiting_customer < nrChairs)
-        waiting_customer = waiting_customer + 1
-        self.availChairs = self.availChairs - 1
-        self.cStat[p] = 'S'
-        self.printCustomerStatus(p)
-        mutexlock.Unlock()
-
-        waiting_customer_sem.Up()
-        barber_ready_sem.Down()
-
-        self.cStat[p] = 'B'
-        self.printCustomerStatus(p)
-
-        self.cStat[p] = 'F'
-        self.printCustomerStatus(p)
-
-        barber_done_sem.Up()
-      else
-        mutexlock.Unlock()  -- do not get a haircut
-      endIf
-
-      customer_status_sem.Down()
-      self.cStat = 'L'
-      self.printCustomerStatus(p)
-    endMethod
-
 
 
     method printExample()
