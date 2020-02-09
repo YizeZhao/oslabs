@@ -132,6 +132,7 @@ code Main
     waiting_customer = waiting_customer - 1
     sb.availChairs = sb.availChairs + 1
     mutexlock.Unlock()
+
     sb.barberStatus = Start
     sb.printBarberStatus()
 
@@ -151,6 +152,7 @@ function Customer(n: int)
   mutexlock.Lock()
   sb.customerStatus[n] = 'E'
   sb.printCustomerStatus(n)
+
   if (waiting_customer < nrChairs)
     waiting_customer = waiting_customer + 1
     sb.availChairs = sb.availChairs - 1
@@ -176,7 +178,6 @@ function Customer(n: int)
     mutexlock.Unlock()  -- do not get a haircut
   endIf
 
-  customer_status_sem.Down()
   sb.customerStatus[n] = 'L'
   sb.printCustomerStatus(n)
 endFunction
