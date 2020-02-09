@@ -100,7 +100,7 @@ code Main
 
     barber = new Thread
     barber.Init("Barber")
-    barber.Fork(Barber, nrChairs)
+    barber.Fork(Barber)
 
     customerList[0].Init("C1")
     customerList[0].Fork(Customer, 0)
@@ -125,13 +125,14 @@ code Main
 
   endFunction
 
-  function Barber(nChairs: int)
+  function Barber()
   while true
-    waiting_customer_sem.Down()
+
     mutexlock.Lock()
     waiting_customer = waiting_customer - 1
     sb.availChairs = sb.availChairs + 1
     mutexlock.Unlock()
+    waiting_customer_sem.Down()
 
     sb.barberStatus = Start
     sb.printBarberStatus()
