@@ -105,9 +105,9 @@ code Main
     superclass Object
     fields
       -- For each philosopher: HUNGRY, EATING, or THINKING
-      status: array [5] of int = new array of int {5 of THINKING}
-      SleepAwake: Condition = new Condition
-      MutexLock: Mutex = new Mutex
+      status: array [5] of int
+      SleepAwake: Condition
+      MutexLock: Mutex
 
     methods
       Init ()
@@ -121,7 +121,10 @@ code Main
     method Init ()
       -- Initialize so that all philosophers are THINKING.
       -- ...unimplemented...
+      status = new array of int {5 of THINKING}
+      SleepAwake = new Condition
       SleepAwake.Init()
+      MutexLock = = new Mutex
       MutexLock = Init()
 
       endMethod
