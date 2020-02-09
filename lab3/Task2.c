@@ -155,7 +155,7 @@ code Main
       endWhile
     endMethod
 
-    method Customer(int: p)
+    method Customer(p: int)
       mutexlock.Lock()
       self.cStat[p] = 'E'
       self.printCustomerStatus(p)
