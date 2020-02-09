@@ -180,6 +180,7 @@ function Customer(n: int)
 
   sb.customerStatus[n] = 'L'
   sb.printCustomerStatus(n)
+endWhile
 endFunction
 
   -- implementation of SleepingBarber class
