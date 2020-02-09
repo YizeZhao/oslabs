@@ -2,7 +2,7 @@ code Main
 
   -- OS Class: Project 3
   --
-  -- <PUT YOUR NAME HERE>
+  -- <Yize Zhao>
   --
 
   -- This package contains the following:
@@ -39,13 +39,44 @@ code Main
   var
     sb: SleepingBarber
     bStatus: int = End
-    cStatus: array[nrCustomers] of char = 
+    cStatus: array[nrCustomers] of char =
              new array of char { nrCustomers of 'L' }
     -- Hint: Some variables are defined in "Task2.h".
+
+    waiting_customer: int
+    waiting_customer_sem: Semaphore  --number of waiting customers
+    barber_ready_sem: Semaphore   -- is the barber ready to start?
+    customer_status_sem: Semaphore
+    barber_done_sem: Semaphore -- is the barber done?
+
+    mutexlock: Mutex
 
   function sleepingbarber()
     var
       i: int
+      customerList: array[nrCustomers] of Thread
+      barber: Thread
+    customerList = new array of Thread {nrCustomers of new Thread }
+
+    mutexlock = new Mutex
+    mutexlock.Init()
+
+    waiting_customer = 0
+    waiting_customer_sem = new Semaphore
+    waiting_customer_sem.Init(0)
+
+    barber_ready_sem = new Semaphore
+    barber_ready_sem.Init(0)
+
+    barber_done_sem = new Semaphore
+    barber_done_sem.Init()
+
+    customer_status_sem = new Semaphore
+    customer_status_sem.Init(0)
+
+
+
+
 
     -- print initial line
     for i = 0 to nrChairs
@@ -63,9 +94,34 @@ code Main
 
     -- Remove the following line in your implementation
     -- This is only an example.
-    sb.printExample()
+    -- sb.printExample()
 
     -- Add more code below.
+
+    barber = new Thread
+    barber.Init("Barber")
+    barber.Fork(sb.Barber)
+
+    customerList[0].Init("C1")
+    customerList[0].Fork(sb.Customer, 0)
+    customerList[1].Init("C2")
+    customerList[1].Fork(sb.Customer, 1)
+    customerList[2].Init("C3")
+    customerList[2].Fork(sb.Customer, 2)
+    customerList[3].Init("C4")
+    customerList[3].Fork(sb.Customer, 3)
+    customerList[4].Init("C5")
+    customerList[4].Fork(sb.Customer, 4)
+    customerList[5].Init("C6")
+    customerList[5].Fork(sb.Customer, 5)
+    customerList[6].Init("C7")
+    customerList[6].Fork(sb.Customer, 6)
+    customerList[7].Init("C8")
+    customerList[7].Fork(sb.Customer, 7)
+    customerList[8].Init("C9")
+    customerList[8].Fork(sb.Customer, 8)
+    customerList[9].Init("C10")
+    customerList[9].Fork(sb.Customer, 9)
 
   endFunction
 
@@ -76,6 +132,60 @@ code Main
       self.customerStatus = cStat
       self.availChairs = numOfChair
     endMethod
+
+    method Barber()
+      while True
+        waiting_customer_sem.Down()
+        mutexlock.Lock()
+        waiting_customer = waiting_customer - 1
+        self.availChairs = self.availChairs + 1
+        mutexlock.Unlock()
+        self.barberStatus = Start
+        self.printBarberStatus()
+
+        barber_ready_sem.Up()
+        -- cut hair
+        customer_status_sem.Down()
+        currentThread.Yield()
+        customer_status_sem.Down()
+        barber_done_sem.Up()
+
+        self.barberStatus = End
+        self.printBarberStatus()
+      endWhile
+    endMethod
+
+    method Customer(int: p)
+      mutexlock.Lock()
+      self.cStat[p] = 'E'
+      self.printCustomerStatus(p)
+      if (waiting_customer < nrChairs)
+        waiting_customer = waiting_customer + 1
+        self.availChairs = self.availChairs - 1
+        self.cStat[p] = 'S'
+        self.printCustomerStatus(p)
+        mutexlock.Unlock()
+
+        waiting_customer_sem.Up()
+        barber_ready_sem.Down()
+
+        self.cStat[p] = 'B'
+        self.printCustomerStatus(p)
+
+        self.cStat[p] = 'F'
+        self.printCustomerStatus(p)
+
+        barber_done_sem.Up()
+      else
+        mutexlock.Unlock()  -- do not get a haircut
+      endIf
+
+      customer_status_sem.Down()
+      self.cStat = 'L'
+      self.printCustomerStatus(p)
+    endMethod
+
+
 
     method printExample()
       ----------------------------- Example -----------------------------
