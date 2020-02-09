@@ -17,8 +17,6 @@ header Main
       availChairs: int
     methods
       Init(bStat: int, cStat: ptr to array of char, numOfChair: int)
-      --Customer(p: int)
-      --Barber()
       printExample()
       printBarberStatus()
       printCustomerStatus(customer: int)

@@ -100,7 +100,7 @@ code Main
 
     barber = new Thread
     barber.Init("Barber")
-    barber.Fork(Barber)
+    barber.Fork(Barber, nrChairs)
 
     customerList[0].Init("C1")
     customerList[0].Fork(Customer, 0)
