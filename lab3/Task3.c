@@ -49,9 +49,9 @@ code Main
   endFunction
 
   function game(group_idx: int)
-    GP.Request(group_names[group_idx][0], dice_per_group[group_idx])
+    GP.Request(group_names[group_idx], dice_per_group[group_idx])
     currentThread.Yield()
-    GP.Return(group_names[group_idx][0], dice_per_group[group_idx])
+    GP.Return(group_names[group_idx], dice_per_group[group_idx])
 
   endFunction
 
