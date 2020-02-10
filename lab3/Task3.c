@@ -23,6 +23,7 @@ code Main
     enough_dice: Condition
     mutexlock: Mutex
     i: int
+    j: int
     name_ptr: ptr to array[1] of char
     temp_name: array[1] of char
 
@@ -46,15 +47,18 @@ code Main
 
     -- Add more code below
     i = 0
-    for (i=0;i<total_groups;i=i+1)
-        temp_name[0] = group_names[i]
-        game_groups[i].Init(name_ptr)
-        game_groups[i].Fork(game, i)
+    j = 0
+    for (j=0;j<5,j=j+1)
+        for (i=0;i<total_groups;i=i+1)
+            temp_name[0] = group_names[i]
+            game_groups[i].Init(name_ptr)
+            game_groups[i].Fork(game, i)
+        endFor
     endFor
-  
   endFunction
 
   function game(group_idx: int)
+
     GP.Request(group_names[group_idx], dice_per_group[group_idx])
     currentThread.Yield()
     GP.Return(group_names[group_idx], dice_per_group[group_idx])
