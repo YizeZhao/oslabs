@@ -59,7 +59,7 @@ code Main
     var j: int
 
     j=0
-    for (j=0;j<5, j=j+1)
+    for (j=0;j<5;j=j+1)
         GP.Request(group_names[group_idx], dice_per_group[group_idx])
         currentThread.Yield()
         GP.Return(group_names[group_idx], dice_per_group[group_idx])
