@@ -36,7 +36,7 @@ code Main
     enough_dice = new Condition
     enough_dice.Init()
 
-    temp_name = new array of char{1 of char}
+    temp_name = new array of char{1 of new char}
     name_ptr = &temp_name
 
 
