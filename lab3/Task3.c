@@ -23,6 +23,8 @@ code Main
     enough_dice: Condition
     mutexlock: Mutex
     i: int
+    name_ptr: ptr to array[1] of char
+    temp_name: array[1] of char
 
 
   function gamingparlor()
@@ -42,7 +44,9 @@ code Main
     -- Add more code below
     i = 0
     for (i=0;i<total_groups;i=i+1)
-        game_groups[i].Init(&group_names[i])
+        temp_name[0] = group_names[i]
+        name_ptr = &temp_name
+        game_groups[i].Init(name_ptr)
         game_groups[i].Fork(game, i)
     endFor
   
