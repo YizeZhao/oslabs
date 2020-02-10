@@ -22,6 +22,7 @@ code Main
     game_groups: array[total_groups] of Thread
     enough_dice: Condition
     mutexlock: Mutex
+    i: int
 
 
   function gamingparlor()
