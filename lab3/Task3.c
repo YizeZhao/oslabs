@@ -42,7 +42,7 @@ code Main
 
     -- Remove the following line in your implementation
     -- This is only an example.
-    GP.PrintExample()
+    -- GP.PrintExample()
 
     -- Add more code below
     i = 0
