@@ -42,7 +42,7 @@ code Main
     -- Add more code below
     i = 0
     for (i=0;i<total_groups;i=i+1)
-        game_groups[i].Init(group_names[i])
+        game_groups[i].Init(group_names[i][0])
         game_groups[i].Fork(game, i)
     endFor
   
@@ -66,7 +66,7 @@ code Main
       self.Print(name, "requests", nr_of_dice)
       while dice_available < nr_of_dice
         -- FatalError ("Needs to be implemented")
-        enough_dice.wait(&mutexlock)
+        enough_dice.Wait(&mutexlock)
       endWhile
       dice_available = dice_available - nr_of_dice
       self.Print(name, "proceeds with", nr_of_dice)
