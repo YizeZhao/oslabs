@@ -42,7 +42,7 @@ code Main
     -- Add more code below
     i = 0
     for (i=0;i<total_groups;i=i+1)
-        game_groups[i].Init(group_names[i])
+        game_groups[i].Init(&group_names[i])
         game_groups[i].Fork(game, i)
     endFor
   
