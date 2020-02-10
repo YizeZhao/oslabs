@@ -48,7 +48,7 @@ code Main
     -- Add more code below
     i = 0
     j = 0
-    for (j=0;j<5,j=j+1)
+    for (j=0;j<5;j=j+1)
         for (i=0;i<total_groups;i=i+1)
             temp_name[0] = group_names[i]
             game_groups[i].Init(name_ptr)
