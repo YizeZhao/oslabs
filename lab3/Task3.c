@@ -36,6 +36,9 @@ code Main
     enough_dice = new Condition
     enough_dice.Init()
 
+    temp_name = new array of char{1 of char}
+    name_ptr = &temp_name
+
 
     -- Remove the following line in your implementation
     -- This is only an example.
@@ -45,7 +48,6 @@ code Main
     i = 0
     for (i=0;i<total_groups;i=i+1)
         temp_name[0] = group_names[i]
-        name_ptr = &temp_name
         game_groups[i].Init(name_ptr)
         game_groups[i].Fork(game, i)
     endFor
