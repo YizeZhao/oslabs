@@ -785,7 +785,7 @@ code Kernel
         threadManagerLock.Lock()
         (*th).status = UNUSED
         freeList.AddToEnd(th)
-        thread_free.Signal(&threadManagerLock)
+        aThreadBecameFree.Signal(&threadManagerLock)
         threadManagerLock.Unlock()
 
         endMethod
