@@ -953,7 +953,7 @@ code Kernel
           var
             newProcessPtr: ptr to ProcessControlBlock
           processManagerLock.Lock()
-          while freeList.Isempty() == true
+          while freeList.IsEmpty() == true
             aProcessBecameFree.Wait(&processManagerLock)
           endWhile
 
