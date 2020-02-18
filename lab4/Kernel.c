@@ -690,7 +690,7 @@ code Kernel
         -- This method is called once at kernel startup time to initialize
         -- the one and only "ThreadManager" object.
         -- 
-          print ("Initializing Thread Manager...\n")
+          -- print ("Initializing Thread Manager...\n")
           -- NOT IMPLEMENTED
 
         var i: int
