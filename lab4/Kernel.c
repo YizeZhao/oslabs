@@ -693,12 +693,12 @@ code Kernel
           print ("Initializing Thread Manager...\n")
           -- NOT IMPLEMENTED
 
-        var
-        i: int
-      threadTable = new array of Thread {MAX_NUMBER_OF_PROCESSES of new Thread}
-      freeList = new List[Thread]
-      threadManagerLock = new Mutex
-      aThreadBecameFree = new Condition
+        var i: int
+
+        threadTable = new array of Thread {MAX_NUMBER_OF_PROCESSES of new Thread}
+        freeList = new List[Thread]
+        threadManagerLock = new Mutex
+        aThreadBecameFree = new Condition
 
       --name_ptr: ptr to array[1] of char
       --temp_name: array[1] of char
