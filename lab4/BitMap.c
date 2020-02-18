@@ -1,4 +1,4 @@
-code BitMap
+ code BitMap
 
   -- Harry Porter  --  September 18, 2004
 

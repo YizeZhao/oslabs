@@ -692,6 +692,36 @@ code Kernel
         -- 
           print ("Initializing Thread Manager...\n")
           -- NOT IMPLEMENTED
+
+        var
+          threadTable = new array of Thread {MAX_NUMBER_OF_PROCESSES of new Thread}
+          freeList = new List[Thread]
+          threadManagerLock = new Mutex
+          aThreadBecameFree = new Condition
+
+          --name_ptr: ptr to array[1] of char
+          --temp_name: array[1] of char
+
+          i: int
+
+
+        threadManagerLock.Init()
+        aThreadBecameFree.Init()
+
+        --temp_name = new array of char{1 of 'X'}
+        --name_ptr = &temp_name
+
+        for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
+
+          threadTable[i].Init('X')      -- need a pointer to char array, TODO: take care later
+          threadTable[i].status = UNUSED
+          endFor
+
+        for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
+          freeList.AddToEnd(&threadTable[i])
+          endFor
+
+
         endMethod
 
       ----------  ThreadManager . Print  ----------
@@ -723,9 +753,24 @@ code Kernel
         -- 
         -- This method returns a new Thread; it will wait
         -- until one is available.
-        -- 
+        -- and change its status to just_created
           -- NOT IMPLEMENTED
-          return null
+          -- return null
+          var
+            newThreadPtr: ptr to Thread
+
+          threadManagerLock.Lock()
+
+          while freeList.IsEmpty() == true
+            aThreadBecameFree.Wait(&threadManagerLock)
+            endWhile
+
+          newThreadPtr = freeList.Remove()
+          (*newThreadPtr).status = JUST_CREATED
+          -- (*(freeList.Remove())).status = JUST_CREATED
+          threadManagerLock.Unlock()
+
+          return newThreadPtr
         endMethod
 
       ----------  ThreadManager . FreeThread  ----------
@@ -736,6 +781,12 @@ code Kernel
         -- to the FREE list.
         -- 
           -- NOT IMPLEMENTED
+        threadManagerLock.Lock()
+        (*th).status = UNUSED
+        freeList.AddToEnd(th)
+        thread_free.Signal(&threadManagerLock)
+        threadManagerLock.Unlock()
+
         endMethod
 
     endBehavior
