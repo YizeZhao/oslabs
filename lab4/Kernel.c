@@ -1114,7 +1114,7 @@ code Kernel
             freeFrameAddr = PHYSICAL_ADDRESS_OF_FIRST_PAGE_FRAME + (freeFrameIdx * PAGE_SIZE)
 
           -- (c) execute the following:
-            aPageTable.SetFrameAddr (i, frameAddr)
+            aPageTable.SetFrameAddr (i, freeFrameAddr)
             endFor
           -- to store the address of the frame which has been allocated
           -- (d) adjust the number of free frames;
@@ -1140,7 +1140,7 @@ code Kernel
           numFramesReturned = (*aPageTable).numberOfPages
           for i = 0 to numFramesReturned-1
             returnFrameAddr = aPageTable.ExtractFrameAddr(i)
-            returnFrameIdx = (frameAddress - PHYSICAL_ADDRESS_OF_FIRST_PAGE_FRAME) / PAGE_SIZE -- opposite to allocate
+            returnFrameIdx = (returnFrameAddr - PHYSICAL_ADDRESS_OF_FIRST_PAGE_FRAME) / PAGE_SIZE -- opposite to allocate
             framesInUse.ClearBit(returnFrameIdx)
             endFor
 
