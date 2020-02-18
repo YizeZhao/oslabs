@@ -1130,7 +1130,7 @@ code Kernel
 
       method ReturnAllFrames (aPageTable: ptr to AddrSpace)
           -- NOT IMPLEMENTED
-          var:
+          var
           returnFrameIdx: int
           returnFrameAddr: int
           numFramesReturned: int
