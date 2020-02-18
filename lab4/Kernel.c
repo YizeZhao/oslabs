@@ -714,7 +714,7 @@ code Kernel
 
         for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
 
-          threadTable[i].Init('X')      -- need a pointer to char array, TODO: take care later
+          threadTable[i].Init('Xxx')      -- need a pointer to char array, TODO: take care later
           threadTable[i].status = UNUSED
           endFor
 
