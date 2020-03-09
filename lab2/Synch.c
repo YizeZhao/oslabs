@@ -118,7 +118,7 @@ code Synch
             if heldby != null
               waitingThreads.AddToEnd (currentThread)
               currentThread.Sleep ()
-	      self.Lock()
+	          self.Lock()
 
             else
               heldby = currentThread
