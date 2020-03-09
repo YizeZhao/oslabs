@@ -1775,7 +1775,7 @@ code Kernel
       -- NOT IMPLEMENTED
       print("Handle_Sys_Join invoked! \n")
       print("processID = ")
-      print(processID)
+      printInt(processID)
       nl()
       return 2000
     endFunction
@@ -1796,7 +1796,7 @@ code Kernel
 
      -- Disable interrupts;
     oldIntStat = SetInterruptsTo (DISABLED)
-    newProcessPtr.Init()
+    newAddrSpace.Init()
 
     ret = currentThread.myProcess.addrSpace.GetStringFromVirtual (&strBuffer,filename asInteger, MAX_STRING_SIZE)
 
@@ -1817,7 +1817,7 @@ code Kernel
     currentThread.myProcess.addrSpace = newAddrSpace
     frameManager.ReturnAllFrames(&((*currentThread).myProcess.addrSpace))
     fileManager.Close(pOF)
-    initUserStackTop = (newAddrSpace.addrSpace.numberOfPages)*PAGE_SIZE
+    initUserStackTop = (newAddrSpace.AddrSpace.numberOfPages)*PAGE_SIZE
     initSystemStackTop = (&(currentThread.systemStack[SYSTEM_STACK_SIZE-1])) asInteger
 
     currentThread.isUserThread = true
@@ -1881,7 +1881,7 @@ code Kernel
       printHex(buffer asInteger)
       nl()
       print("sizeInBytes = ")
-      print(&sizeInBytes)
+      printInt(&sizeInBytes)
       nl()
 
       return 6000
@@ -1903,7 +1903,7 @@ code Kernel
       printHex(buffer asInteger)
       nl()
       print("sizeInBytes = ")
-      print(&sizeInBytes)
+      printInt(&sizeInBytes)
       nl()
       return 7000
     endFunction
