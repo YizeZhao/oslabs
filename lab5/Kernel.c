@@ -1833,7 +1833,7 @@ code Kernel
       -- NOT IMPLEMENTED
       var
         strBuffer: array [MAX_STRING_SIZE] of char
-        ret: i
+        ret: int
       print("Handle_Sys_Create invoked! \n")
       print("virt addr of filename = \n")
       printHex(filename asInteger)
@@ -1852,7 +1852,7 @@ code Kernel
       -- NOT IMPLEMENTED
        var
         strBuffer: array [MAX_STRING_SIZE] of char
-        ret: i
+        ret: int
       print("Handle_Sys_Open invoked! \n")
       print("virt addr of filename = \n")
       printHex(filename asInteger)
@@ -1871,7 +1871,7 @@ code Kernel
       -- NOT IMPLEMENTED
        var
         strBuffer: array [MAX_STRING_SIZE] of char
-        ret: i
+        ret: int
       ret = currentThread.myProcess.addrSpace.GetStringFromVirtual (&strBuffer,buffer asInteger, MAX_STRING_SIZE)
       print("Handle_Sys_Read invoked! \n")
       print("filename = ")
@@ -1893,7 +1893,7 @@ code Kernel
       -- NOT IMPLEMENTED
       var
         strBuffer: array [MAX_STRING_SIZE] of char
-        ret: i
+        ret: int
       ret = currentThread.myProcess.addrSpace.GetStringFromVirtual (&strBuffer,buffer asInteger, MAX_STRING_SIZE)
       print("Handle_Sys_Write invoked! \n")
       print("filename = ")
@@ -1948,7 +1948,7 @@ code Kernel
 
 -----------------------------  StartUserProcess  ---------------------------------
 
-  function InitFirstProcess ()
+  function StartUserProcess ()
     var
       pPCB: ptr to ProcessControlBlock
       pOF: ptr to OpenFile
