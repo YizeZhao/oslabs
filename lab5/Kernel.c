@@ -1798,7 +1798,7 @@ code Kernel
     oldIntStat = SetInterruptsTo (DISABLED)
     newAddrSpace.Init()
 
-    ret = currentThread.myProcess.addrSpace.GetStringFromVirtual (&strBuffer,filename asInteger, MAX_STRING_SIZE)
+    ret = (*currentThread).myProcess.addrSpace.GetStringFromVirtual(&strBuffer,filename asInteger, MAX_STRING_SIZE)
 
     if (ret < 0)
       return -1
@@ -1881,7 +1881,7 @@ code Kernel
       printHex(buffer asInteger)
       nl()
       print("sizeInBytes = ")
-      printInt(&sizeInBytes)
+      printInt(sizeInBytes)
       nl()
 
       return 6000
@@ -1903,7 +1903,7 @@ code Kernel
       printHex(buffer asInteger)
       nl()
       print("sizeInBytes = ")
-      printInt(&sizeInBytes)
+      printInt(sizeInBytes)
       nl()
       return 7000
     endFunction
