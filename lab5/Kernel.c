@@ -1957,8 +1957,7 @@ code Kernel
       initSystemStackTop: int
       oldIntStat: int
 
-    -- Disable interrupts;
-    oldIntStat = SetInterruptsTo (DISABLED)
+
 
     pPCB = processManager.GetANewProcess()
     currentThread.myProcess = pPCB
@@ -1969,18 +1968,14 @@ code Kernel
     initUserStackTop = (pPCB.addrSpace.numberOfPages)*PAGE_SIZE
     initSystemStackTop = (&(currentThread.systemStack[SYSTEM_STACK_SIZE-1])) asInteger
 
+    -- Disable interrupts;
+    oldIntStat = SetInterruptsTo (DISABLED)
+
     -- Initialize the page table registers for this virtual addres sspace;
     pPCB.addrSpace.SetToThisPageTable()
 
     -- SettheisUserThread variable in the current thread to true;
     currentThread.isUserThread = true
-
-    -- Set system register r15,the system stacktop;
-    -- Setuserregisterr15,theuserstacktop;
-    -- CleartheSystemmodebitintheconditioncoderegistertoswitchintousermode;
-    -- Set the Paging bit in the status register, causing the MMU to do virtual memory mapping;
-    -- SettheInterruptsEnabledbitinthestatusregister,sothatfutureinterruptswillbehandled;
-    -- Jumptotheinitialentrypointintheprogram.
     BecomeUserThread (initUserStackTop, initPC, initSystemStackTop)
 
   endFunction
