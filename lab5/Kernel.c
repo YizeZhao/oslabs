@@ -1817,7 +1817,7 @@ code Kernel
     currentThread.myProcess.addrSpace = newAddrSpace
     frameManager.ReturnAllFrames(&((*currentThread).myProcess.addrSpace))
     fileManager.Close(pOF)
-    initUserStackTop = (newAddrSpace.AddrSpace.numberOfPages)*PAGE_SIZE
+    initUserStackTop = (newAddrSpace.numberOfPages)*PAGE_SIZE
     initSystemStackTop = (&(currentThread.systemStack[SYSTEM_STACK_SIZE-1])) asInteger
 
     currentThread.isUserThread = true
