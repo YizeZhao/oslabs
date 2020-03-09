@@ -1835,7 +1835,7 @@ code Kernel
         strBuffer: array [MAX_STRING_SIZE] of char
         ret: int
       print("Handle_Sys_Create invoked! \n")
-      print("virt addr of filename = \n")
+      print("virt addr of filename = ")
       printHex(filename asInteger)
       nl()
       print("filename = ")
@@ -1854,7 +1854,7 @@ code Kernel
         strBuffer: array [MAX_STRING_SIZE] of char
         ret: int
       print("Handle_Sys_Open invoked! \n")
-      print("virt addr of filename = \n")
+      print("virt addr of filename = ")
       printHex(filename asInteger)
       nl()
       print("filename = ")
@@ -1931,6 +1931,7 @@ code Kernel
       -- NOT IMPLEMENTED
       print("Handle_Sys_Close invoked! \n")
       print("fileDesc = ")
+      printInt(fileDesc)
       nl()
     endFunction
 
