@@ -1,6 +1,6 @@
 code Kernel
 
-  -- <PUT YOUR NAME HERE>
+  -- <Yize Zhao>
 
 -----------------------------  InitializeScheduler  ---------------------------------
 
