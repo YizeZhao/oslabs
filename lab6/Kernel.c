@@ -956,8 +956,10 @@ code Kernel
           endWhile
 
             newProcessPtr = freeList.Remove()
+
+            nextPid = nextPid + 1
+            (*newProcessPtr).pid = nextPid
             newProcessPtr.status = ACTIVE
-            (*newProcessPtr).pid = (*newProcessPtr).pid + 1
             processManagerLock.Unlock()
 
             return newProcessPtr
@@ -1902,7 +1904,7 @@ code Kernel
       oldPCint = GetOldUserPCFromSystemStack()
       newTh.Fork(ResumeChildAfterFork, oldPCint)
 
-      print("newPCB.pid is: \n")
+      print("newPCB.pid is: ")
       printInt(newPCB.pid)
       nl()
       return newPCB.pid
@@ -1925,9 +1927,6 @@ code Kernel
     initSystemStackTop = (&(currentThread.systemStack[SYSTEM_STACK_SIZE-1])) asInteger
 
     BecomeUserThread(initUserStackTop, userPC, initSystemStackTop)
-
-
-
 
   endFunction
 
