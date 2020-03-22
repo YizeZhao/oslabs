@@ -1946,7 +1946,7 @@ code Kernel
       endFor
 
 
-
+      print("cant found child\n")
       return -1
     endFunction
 
