@@ -1830,10 +1830,10 @@ code Kernel
 
   function Handle_Sys_Exit (returnStatus: int)
       -- NOT IMPLEMENTED
-      print("Handel_Sys_Exit invoked! \n")
-      print("returnStatus = ")
-      printHex(returnStatus)
-      nl()
+      -- print("Handel_Sys_Exit invoked! \n")
+      -- print("returnStatus = ")
+      -- printHex(returnStatus)
+      -- nl()
       ProcessFinish(returnStatus)
     endFunction
 
@@ -1942,14 +1942,14 @@ code Kernel
       for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
       -- find processid's child process that is not free
          if ((processID == processManager.processTable[i].pid) && (processManager.processTable[i].status != FREE) && (currentThread.myProcess.pid == processManager.processTable[i].parentsPid))
-           print("found child\n")
+           --print("found child\n")
            returnStatus = processManager.WaitForZombie(&(processManager.processTable[i]))
            return returnStatus
         endIf
       endFor
 
 
-      print("cant found child\n")
+      --print("cant found child\n")
       return -1
     endFunction
 
