@@ -1082,7 +1082,7 @@ code Kernel
     currentThread.myProcess.exitStatus = exitStatus
     -- disable interrupts
     oldIntStat = SetInterruptsTo (DISABLED)
-
+    currentThread.isUserThread = false
     -- renable interrupts
     oldIntStat = SetInterruptsTo (oldIntStat)
     -- return all page frames to pool
@@ -1094,7 +1094,7 @@ code Kernel
     -- disconnect PCB and Thread
     currentThread.myProcess.myThread = null
     currentThread.myProcess = null
-    currentThread.isUserThread = false
+
 
     ThreadFinish()
   endFunction
@@ -1827,10 +1827,10 @@ code Kernel
 
   function Handle_Sys_Exit (returnStatus: int)
       -- NOT IMPLEMENTED
-      -- print("Handel_Sys_Exit invoked! \n")
-      -- print("returnStatus = ")
-      -- printInt(returnStatus)
-      -- nl()
+      print("Handel_Sys_Exit invoked! \n")
+      print("returnStatus = ")
+      printInt(returnStatus)
+      nl()
       ProcessFinish(returnStatus)
     endFunction
 
