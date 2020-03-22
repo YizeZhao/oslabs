@@ -1904,9 +1904,9 @@ code Kernel
       oldPCint = GetOldUserPCFromSystemStack()
       newTh.Fork(ResumeChildAfterFork, oldPCint)
 
-      print("newPCB.pid is: ")
-      printInt(newPCB.pid)
-      nl()
+      -- print("newPCB.pid is: ")
+      -- printInt(newPCB.pid)
+      -- nl()
       return newPCB.pid
     endFunction
 
