@@ -1829,7 +1829,7 @@ code Kernel
       -- NOT IMPLEMENTED
       print("Handel_Sys_Exit invoked! \n")
       print("returnStatus = ")
-      printInt(returnStatus)
+      printHexVar(returnStatus)
       nl()
       ProcessFinish(returnStatus)
     endFunction
