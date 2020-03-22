@@ -1878,8 +1878,9 @@ code Kernel
       newPCB.myThread = newTh
       newPCB.parentsPid = currentThread.myProcess.pid
 
-      newTh.myProcess = newPCB
       newTh.status = READY
+      newTh.myProcess = newPCB
+
 
       SaveUserRegs(&(newTh.userRegs[0]))
 
