@@ -1858,7 +1858,7 @@ code Kernel
 
 -----------------------------  Handle_Sys_Fork  ---------------------------------
 
-  function Handle_Sys_Fork_bug () returns int
+  function Handle_Sys_Fork () returns int
       -- NOT IMPLEMENTED
       var
         newTh: ptr to Thread
