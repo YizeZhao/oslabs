@@ -1001,7 +1001,7 @@ code Kernel
         -- find children whose zombie
         if p.pid == processManager.processTable[i].parentsPid && processManager.processTable[i].status == ZOMBIE
           --
-          processManager.processTable[i].status == FREE
+          processManager.processTable[i].status = FREE
           processManager.freeList.AddToEnd(&processManager.processTable[i])
           -- signal the processes thats waiting for PCBs
           processManager.aProcessBecameFree.signal(&(processManager.processManagerLock))
@@ -1012,6 +1012,7 @@ code Kernel
         if p.parentsPid == processManager.processTable[i].pid
           pParent = &(processManager.processTable[i])
         endIf
+      endFor
 
       -- if parent exist(not terminated yet) and active
       if pParent != null && pParent.status == ACTIVE
