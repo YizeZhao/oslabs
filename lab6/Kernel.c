@@ -1856,7 +1856,7 @@ code Kernel
 
 -----------------------------  Handle_Sys_Fork  ---------------------------------
 
-  function Handle_Sys_Fork () returns int
+  function Handle_Sys_Fork_bug () returns int
       -- NOT IMPLEMENTED
       var
         newTh: ptr to Thread
@@ -1906,6 +1906,49 @@ code Kernel
       printInt(newPCB.pid)
       nl()
       return newPCB.pid
+    endFunction
+
+
+  function Handle_Sys_Fork () returns int
+		var
+			newThread: ptr to Thread
+			newPCB: ptr to ProcessControlBlock
+			junk: int
+			i: int
+			oldUserPC: int
+
+		-- Create and link a new process and thread
+		newThread = threadManager.GetANewThread()
+		newPCB = processManager.GetANewProcess()
+		newPCB.myThread = newThread
+		newPCB.parentsPid = currentThread.myProcess.pid
+		newThread.status = READY
+		newThread.myProcess = newPCB
+
+		-- Copy user registers to new thread
+		SaveUserRegs(&(newThread.userRegs[0]))
+
+		junk = SetInterruptsTo (ENABLED) -- allow other threads to run now that the user registers have been saved
+
+		-- Initialize stack top
+		newThread.stackTop = &(newThread.systemStack[SYSTEM_STACK_SIZE-1])
+
+		frameManager.GetNewFrames(&(newPCB.addrSpace), currentThread.myProcess.addrSpace.numberOfPages)
+		for i = 0 to currentThread.myProcess.addrSpace.numberOfPages-1 by 1
+			MemoryCopy(newPCB.addrSpace.ExtractFrameAddr(i) , currentThread.myProcess.addrSpace.ExtractFrameAddr(i), PAGE_SIZE)
+			if currentThread.myProcess.addrSpace.IsWritable(i) == false -- copy frame state (writable or not)
+				newPCB.addrSpace.ClearWritable(i)
+			else
+				newPCB.addrSpace.SetWritable(i) -- copy address space contents
+			endIf
+		endFor
+
+		-- fork
+		oldUserPC = GetOldUserPCFromSystemStack()
+		newThread.Fork(ResumeChildAfterFork, oldUserPC)
+
+		return newPCB.pid
+
     endFunction
 
 
