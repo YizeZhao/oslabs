@@ -1082,7 +1082,9 @@ code Kernel
     currentThread.myProcess.exitStatus = exitStatus
     -- disable interrupts
     oldIntStat = SetInterruptsTo (DISABLED)
+
     currentThread.isUserThread = false
+
     -- renable interrupts
     oldIntStat = SetInterruptsTo (oldIntStat)
     -- return all page frames to pool
@@ -1094,6 +1096,7 @@ code Kernel
     -- disconnect PCB and Thread
     currentThread.myProcess.myThread = null
     currentThread.myProcess = null
+
 
 
     ThreadFinish()
@@ -1899,7 +1902,7 @@ code Kernel
       newTh.Fork(ResumeChildAfterFork, oldPCint)
 
 
-      return 1000
+      return newPCB.pid
     endFunction
 
 
