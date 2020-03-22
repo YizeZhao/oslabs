@@ -1004,7 +1004,7 @@ code Kernel
           processManager.processTable[i].status = FREE
           processManager.freeList.AddToEnd(&processManager.processTable[i])
           -- signal the processes thats waiting for PCBs
-          processManager.aProcessBecameFree.signal(&(processManager.processManagerLock))
+          processManager.aProcessBecameFree.Signal(&(processManager.processManagerLock))
 
         endIf
 
@@ -1037,7 +1037,7 @@ code Kernel
 
         processManager.processManagerLock.Lock()
         while proc.status != ZOMBIE
-          processManager.aProcessDied.wait(&(processManager.processManagerLock))
+          processManager.aProcessDied.Wait(&(processManager.processManagerLock))
         endWhile
 
         pExitStatus = proc.exitStatus
@@ -1912,7 +1912,7 @@ code Kernel
     RestoreUserRegs(&(currentThread.userRegs[0]))
     currentThread.isUserThread = true
 
-    initUserStackTop = currentThread.userRege[14]
+    initUserStackTop = currentThread.userRegs[14]
     initSystemStackTop = (&(currentThread.systemStack[SYSTEM_STACK_SIZE-1])) asInteger
 
     BecomeUserThread(initUserStackTop, userPC, initSystemStackTop)
