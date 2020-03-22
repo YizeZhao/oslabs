@@ -88,8 +88,8 @@ header Kernel
     Handle_Sys_Exec (filename: ptr to array of char) returns int
     Handle_Sys_Join (processID: int) returns int
     Handle_Sys_Exit (returnStatus: int)
-    TurnIntoZombie(p: ptr to ProcessControlBlock)
-    WaitForZombie (proc: ptr to ProcessControlBlock) returns int
+    -- TurnIntoZombie(p: ptr to ProcessControlBlock)
+    -- WaitForZombie (proc: ptr to ProcessControlBlock) returns int
     Handle_Sys_Create (filename: String) returns int
     Handle_Sys_Open (filename: String) returns int
     Handle_Sys_Read (fileDesc: int, buffer: ptr to char, sizeInBytes: int) returns int
@@ -248,8 +248,8 @@ header Kernel
       PrintShort ()
       GetANewProcess () returns ptr to ProcessControlBlock
       FreeProcess (p: ptr to ProcessControlBlock)
-      --TurnIntoZombie (p: ptr to ProcessControlBlock)
-      --WaitForZombie (proc: ptr to ProcessControlBlock) returns int
+      TurnIntoZombie (p: ptr to ProcessControlBlock)
+      WaitForZombie (proc: ptr to ProcessControlBlock) returns int
   endClass
 
   -----------------------------  FrameManager  ---------------------------------
