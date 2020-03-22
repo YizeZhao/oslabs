@@ -1044,7 +1044,7 @@ code Kernel
 
         pExitStatus = proc.exitStatus
 
-        proc.exitStatus = FREE
+        proc.status = FREE
         processManager.freeList.AddToEnd(proc)
         processManager.aProcessBecameFree.Signal(&(processManager.processManagerLock))
 
