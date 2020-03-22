@@ -1082,10 +1082,7 @@ code Kernel
     currentThread.myProcess.exitStatus = exitStatus
     -- disable interrupts
     oldIntStat = SetInterruptsTo (DISABLED)
-    -- disconnect PCB and Thread
-    currentThread.myProcess.myThread = null
-    currentThread.myProcess = null
-    currentThread.isUserThread = false
+
     -- renable interrupts
     oldIntStat = SetInterruptsTo (oldIntStat)
     -- return all page frames to pool
@@ -1093,6 +1090,12 @@ code Kernel
     -- turn into zombie
     processManager.TurnIntoZombie(currentThread.myProcess)
     -- finish thread
+
+    -- disconnect PCB and Thread
+    currentThread.myProcess.myThread = null
+    currentThread.myProcess = null
+    currentThread.isUserThread = false
+
     ThreadFinish()
   endFunction
 
