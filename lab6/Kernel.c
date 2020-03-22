@@ -1827,10 +1827,10 @@ code Kernel
 
   function Handle_Sys_Exit (returnStatus: int)
       -- NOT IMPLEMENTED
-      print("Handel_Sys_Exit invoked! \n")
-      print("returnStatus = ")
-      printInt(returnStatus)
-      nl()
+      -- print("Handel_Sys_Exit invoked! \n")
+      -- print("returnStatus = ")
+      -- printInt(returnStatus)
+      -- nl()
       ProcessFinish(returnStatus)
     endFunction
 
@@ -1847,7 +1847,7 @@ code Kernel
 
   function Handle_Sys_Yield ()
       -- NOT IMPLEMENTED
-      print("Handle_Sys_Yield invoked! \n")
+      -- print("Handle_Sys_Yield invoked! \n")
       currentThread.Yield()
     endFunction
 
@@ -1864,7 +1864,7 @@ code Kernel
         oldPCint: int
 
 
-      print("Handle_Sys_Fork invoked! \n")
+      -- print("Handle_Sys_Fork invoked! \n")
       -- obtain a new PCB, and a thread object
 
 
@@ -1932,10 +1932,10 @@ code Kernel
       var
         i: int
         returnStatus: int
-      print("Handle_Sys_Join invoked! \n")
-      print("processID = ")
-      printInt(processID)
-      nl()
+      -- print("Handle_Sys_Join invoked! \n")
+      -- print("processID = ")
+      -- printInt(processID)
+      -- nl()
       for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
       -- find processid's child process that is not free
         if processID == processManager.processTable[i].pid
