@@ -1046,7 +1046,7 @@ code Kernel
         processManager.freeList.AddToEnd(proc)
         processManager.aProcessBecameFree.Signal(&(processManager.processManagerLock))
 
-        processManager.processManagerLock.UnLock()
+        processManager.processManagerLock.Unlock()
 
         return pExitStatus
 
