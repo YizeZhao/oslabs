@@ -1932,9 +1932,9 @@ code Kernel
       var
         i: int
         returnStatus: int
-      -- print("Handle_Sys_Join invoked! \n")
-      -- print("processID = ")
-      -- printInt(processID)
+      print("Handle_Sys_Join invoked! \n")
+      print("processID = ")
+      printInt(processID)
       -- nl()
       for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
       -- find processid's child process that is not free
