@@ -2132,7 +2132,7 @@ code Kernel
     pPCB = processManager.GetANewProcess()
     currentThread.myProcess = pPCB
     pPCB.myThread = currentThread
-    pOF = fileManager.Open("TestProgram1")
+    pOF = fileManager.Open("TestProgram3")
     initPC = (*pOF).LoadExecutable(&(pPCB.addrSpace))
     fileManager.Close(pOF)
     initUserStackTop = (pPCB.addrSpace.numberOfPages)*PAGE_SIZE
