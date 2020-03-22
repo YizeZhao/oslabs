@@ -1950,19 +1950,6 @@ code Kernel
       return -1
     endFunction
 
-    function Handle_Sys_Join (processID: int) returns int
-		var
-			i:int
-			childExitStatus: int
-		for i = 0 to MAX_NUMBER_OF_PROCESSES-1 by 1
-			if processManager.processTable[i].pid == processID && processManager.processTable[i].parentsPid == currentThread.myProcess.pid && processManager.processTable[i].status != FREE
-				childExitStatus = processManager.WaitForZombie(&(processManager.processTable[i]))
-				return childExitStatus
-			endIf
-		endFor
-      return -1
-    endFunction
-
 -----------------------------  Handle_Sys_Exec  ---------------------------------
 
   function Handle_Sys_Exec (filename: ptr to array of char) returns int
