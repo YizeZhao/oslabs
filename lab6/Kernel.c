@@ -1927,7 +1927,7 @@ code Kernel
 
 -----------------------------  Handle_Sys_Join  ---------------------------------
 
-  function Handle_Sys_Join_bug (processID: int) returns int
+  function Handle_Sys_Join (processID: int) returns int
       -- NOT IMPLEMENTED
       var
         i: int
