@@ -1938,7 +1938,8 @@ code Kernel
       -- nl()
       for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
       -- find processid's child process that is not free
-        if (processID == processManager.processTable[i].pid && processManager.processTable[i].status != FREE && processManager.processTable[i].parentsPid == currentThread.myProcess.pid )
+        -- if ((processID == processManager.processTable[i].pid) && (processManager.processTable[i].status != FREE) && (currentThread.myProcess.pid == processManager.processTable[i].parentsPid))
+        if processManager.processTable[i].pid == processID && processManager.processTable[i].parentsPid == currentThread.myProcess.pid && processManager.processTable[i].status != FREE
 
            returnStatus = processManager.WaitForZombie(&(processManager.processTable[i]))
            return returnStatus
