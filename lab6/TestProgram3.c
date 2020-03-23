@@ -29,13 +29,13 @@ code TestProgram3
       --YieldTest ()
       --ForkTest ()
       --JoinTest1 ()
-      JoinTest2 ()
+      --JoinTest2 ()
       --JoinTest3 ()
       --JoinTest4 ()
       --ManyProcessesTest1 ()
       --ManyProcessesTest2 ()
       --ManyProcessesTest3 ()
-      --ErrorTest ()
+      ErrorTest ()
 
       Sys_Exit (0)
     endFunction
