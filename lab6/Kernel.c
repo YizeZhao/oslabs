@@ -997,12 +997,12 @@ code Kernel
         i: int
         pParent: ptr to ProcessControlBlock
 
-      pParent = null
+      pParent = null    -- =null if cannot find
       processManager.processManagerLock.Lock()
       for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
         -- find children whose zombie
-        if p.pid == processManager.processTable[i].parentsPid && processManager.processTable[i].status == ZOMBIE
-          --
+        if ((p.pid == processManager.processTable[i].parentsPid) && (processManager.processTable[i].status == ZOMBIE))
+          -- change zombie children to free
           processManager.processTable[i].status = FREE
           processManager.freeList.AddToEnd(&processManager.processTable[i])
           -- signal the processes thats waiting for PCBs
@@ -1016,11 +1016,11 @@ code Kernel
         endIf
       endFor
 
-      -- if parent exist(not terminated yet) and active
-      if pParent != null && pParent.status == ACTIVE
-        p.status = ZOMBIE
-        -- parent may be waiting p to exit, broadcast
-        processManager.aProcessDied.Broadcast(&(processManager.processManagerLock))
+
+      if pParent != null && pParent.status == ACTIVE    -- if parent exist(not terminated yet) and active
+        p.status = ZOMBIE   -- change status to zombie
+
+        processManager.aProcessDied.Broadcast(&(processManager.processManagerLock))  -- parent may be waiting p to exit, broadcast
       else  -- not active nor exist
         p.status = FREE
         processManager.freeList.AddToEnd(p)
@@ -1038,13 +1038,13 @@ code Kernel
           pExitStatus: int
 
         processManager.processManagerLock.Lock()
-        while proc.status != ZOMBIE
+        while proc.status != ZOMBIE     -- wait for process became zombie
           processManager.aProcessDied.Wait(&(processManager.processManagerLock))
         endWhile
 
-        pExitStatus = proc.exitStatus
+        pExitStatus = proc.exitStatus   -- save exit status
 
-        proc.status = FREE
+        proc.status = FREE  -- change status to free
         processManager.freeList.AddToEnd(proc)
         processManager.aProcessBecameFree.Signal(&(processManager.processManagerLock))
 
@@ -1873,15 +1873,16 @@ code Kernel
       -- obtain a new PCB, and a thread object
 
 
-
+      -- create new pcb and thread, point to each other
       newPCB = processManager.GetANewProcess()
       newTh = threadManager.GetANewThread()
 
       newPCB.myThread = newTh
+      -- child's parentPid is myself
       newPCB.parentsPid = currentThread.myProcess.pid
+      newTh.myProcess = newPCB
 
       newTh.status = READY
-      newTh.myProcess = newPCB
 
 
       SaveUserRegs(&(newTh.userRegs[0]))
@@ -1892,19 +1893,22 @@ code Kernel
 
       numpages = currentThread.myProcess.addrSpace.numberOfPages
       frameManager.GetNewFrames(&(newPCB.addrSpace), numpages)
-      for (i=0;i<numpages;i=i+1)
+      for (i=0;i<numpages;i=i+1)    -- iterate throught all pages
+      -- copy memory and read/write
         MemoryCopy(newPCB.addrSpace.ExtractFrameAddr(i),currentThread.myProcess.addrSpace.ExtractFrameAddr(i), PAGE_SIZE)
         if (currentThread.myProcess.addrSpace.IsWritable(i) == true)
           newPCB.addrSpace.SetWritable(i)
+
         elseIf (currentThread.myProcess.addrSpace.IsWritable(i) == false)
           newPCB.addrSpace.ClearWritable(i)
+
         endIf
       endFor
 
       oldPCint = GetOldUserPCFromSystemStack()
       newTh.Fork(ResumeChildAfterFork, oldPCint)
 
-      -- print("newPCB.pid is: ")
+      -- print("Debug: newPCB.pid is: ")
       -- printInt(newPCB.pid)
       -- nl()
       return newPCB.pid
@@ -1923,8 +1927,9 @@ code Kernel
     RestoreUserRegs(&(currentThread.userRegs[0]))
     currentThread.isUserThread = true
 
-    initUserStackTop = currentThread.userRegs[14]
     initSystemStackTop = (&(currentThread.systemStack[SYSTEM_STACK_SIZE-1])) asInteger
+    initUserStackTop = currentThread.userRegs[14]   -- register 15
+
 
     BecomeUserThread(initUserStackTop, userPC, initSystemStackTop)
 
@@ -1944,14 +1949,14 @@ code Kernel
       for(i=0;i<MAX_NUMBER_OF_PROCESSES;i=i+1)
       -- find processid's child process that is not free
          if ((processID == processManager.processTable[i].pid) && (processManager.processTable[i].status != FREE) && (currentThread.myProcess.pid == processManager.processTable[i].parentsPid))
-           --print("found child\n")
+           --print("debug: found child\n")
            returnStatus = processManager.WaitForZombie(&(processManager.processTable[i]))
            return returnStatus
         endIf
       endFor
 
 
-      --print("cant found child\n")
+      --print("debug: cant found child\n")
       return -1
     endFunction
 
