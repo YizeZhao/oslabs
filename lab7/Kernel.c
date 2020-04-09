@@ -2396,7 +2396,7 @@ code Kernel
         return sizeOfFile
       endIf
 
-      openFile.currentPos = newCurrentPos
+      openingFile.currentPos = newCurrentPos
       fileManager.fileManagerLock.Unlock()
       return newCurrentPos
 
