@@ -2130,7 +2130,7 @@ code Kernel
       sizeOfFile = readingOF.fcb.sizeOfFileInBytes
       nextPosInFile = readingOF.currentPos
 
-      while true:
+      while true
         thisChunkSize = PAGE_SIZE - offset
         if nextPosInFile + thisChunkSize > sizeOfFile
           thisChunkSize = sizeOfFile - nextPosInFile
@@ -2171,7 +2171,7 @@ code Kernel
       sizeOfFile = readingOF.fcb.sizeOfFileInBytes
       nextPosInFile = readingOF.currentPos
 
-      while true:
+      while true
         thisChunkSize = PAGE_SIZE - offset
         if nextPosInFile + thisChunkSize > sizeOfFile
           thisChunkSize = sizeOfFile - nextPosInFile
@@ -2273,7 +2273,7 @@ code Kernel
       sizeOfFile = readingOF.fcb.sizeOfFileInBytes
       nextPosInFile = readingOF.currentPos
 
-      while true:
+      while true
         thisChunkSize = PAGE_SIZE - offset
         if nextPosInFile + thisChunkSize > sizeOfFile
           thisChunkSize = sizeOfFile - nextPosInFile
@@ -2314,7 +2314,7 @@ code Kernel
       sizeOfFile = readingOF.fcb.sizeOfFileInBytes
       nextPosInFile = readingOF.currentPos
 
-      while true:
+      while true
         thisChunkSize = PAGE_SIZE - offset
         if nextPosInFile + thisChunkSize > sizeOfFile
           thisChunkSize = sizeOfFile - nextPosInFile
