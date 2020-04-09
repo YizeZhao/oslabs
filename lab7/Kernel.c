@@ -2138,14 +2138,14 @@ code Kernel
         endIf
 
 
-        if (virtPage < 0)
+        if (virtPage < 0) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
           return -1
         endIf
 
         ifValid = currentThread.myProcess.addrSpace.IsValid(virtPage)
         ifWritable = currentThread.myProcess.addrSpace.IsWritable(virtPage)
 
-        if (ifValid == false) || (ifWritable == false) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
+        if (ifValid == false) || (ifWritable == false)
           return -1
         endIf
 
@@ -2183,10 +2183,14 @@ code Kernel
           break
         endIf
 
+        if (virtPage < 0) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
+          return -1
+        endIf
+
         ifValid = currentThread.myProcess.addrSpace.IsValid(virtPage)
         ifWritable = currentThread.myProcess.addrSpace.IsWritable(virtPage)
 
-        if (ifValid == false) || (ifWritable == false) || (virtPage < 0) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
+        if (ifValid == false) || (ifWritable == false)
           return -1
         endIf
 
@@ -2286,10 +2290,14 @@ code Kernel
           break
         endIf
 
+        if (virtPage < 0) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
+          return -1
+        endIf
+
         ifValid = currentThread.myProcess.addrSpace.IsValid(virtPage)
         ifWritable = currentThread.myProcess.addrSpace.IsWritable(virtPage)
 
-        if (ifValid == false) || (ifWritable == false) || (virtPage < 0) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
+        if (ifValid == false) || (ifWritable == false)
           return -1
         endIf
 
@@ -2327,10 +2335,14 @@ code Kernel
           break
         endIf
 
+        if (virtPage < 0) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
+          return -1
+        endIf
+
         ifValid = currentThread.myProcess.addrSpace.IsValid(virtPage)
         ifWritable = currentThread.myProcess.addrSpace.IsWritable(virtPage)
 
-        if (ifValid == false) || (ifWritable == false) || (virtPage < 0) || (virtPage > currentThread.myProcess.addrSpace.numberOfPages-1)
+        if (ifValid == false) || (ifWritable == false)
           return -1
         endIf
 
