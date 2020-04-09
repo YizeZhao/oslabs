@@ -2410,7 +2410,7 @@ code Kernel
 
     p = threadManager.GetANewThread()
     (*p).Init("Test")
-    (*p).Fork(StartUserProcess, "TestProgram3" asInteger)
+    (*p).Fork(StartUserProcess, "TestProgram4" asInteger)
   endFunction
 
 -----------------------------  StartUserProcess  ---------------------------------
