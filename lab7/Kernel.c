@@ -2053,6 +2053,7 @@ code Kernel
         ret: int
         idx: int
         newOF: ptr to OpenFile
+        i: int
       print("Handle_Sys_Open invoked! \n")
       print("virt addr of filename = ")
       printHex(filename asInteger)
