@@ -2047,7 +2047,6 @@ code Kernel
 -----------------------------  Handle_Sys_Open  ---------------------------------
 
   function Handle_Sys_Open (filename: ptr to array of char) returns int
-      -- NOT IMPLEMENTED
        var
         strBuffer: array [MAX_STRING_SIZE] of char
         ret: int
@@ -2404,7 +2403,7 @@ code Kernel
 
     p = threadManager.GetANewThread()
     (*p).Init("Test")
-    (*p).Fork(StartUserProcess, "TestProgram4" asInteger)
+    (*p).Fork(StartUserProcess, "TestProgram3" asInteger)
   endFunction
 
 -----------------------------  StartUserProcess  ---------------------------------
