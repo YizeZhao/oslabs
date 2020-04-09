@@ -803,8 +803,6 @@ code Kernel
           status = FREE
           addrSpace = new AddrSpace
           addrSpace.Init ()
--- Uncomment this code later...
-
           fileDescriptor = new array of ptr to OpenFile
                       { MAX_FILES_PER_PROCESS of null }
 
@@ -1079,6 +1077,7 @@ code Kernel
 
     var
       oldIntStat: int
+      i: int
 
     -- save exit status
     currentThread.myProcess.exitStatus = exitStatus
@@ -2071,7 +2070,7 @@ code Kernel
         endIf
       endFor
 
-      if idx==-1
+      if idx == -1
         return -1
       endIf
 
@@ -2106,6 +2105,7 @@ code Kernel
         ifWritable: bool
         destAddr: int
         readRet: bool
+        sizeOfFile: int
 
 
 
@@ -2249,6 +2249,7 @@ code Kernel
         ifWritable: bool
         destAddr: int
         writeRet: bool
+        sizeOfFile: int
 
 
 
