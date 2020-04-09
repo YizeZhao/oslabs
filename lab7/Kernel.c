@@ -2371,16 +2371,37 @@ code Kernel
 
   function Handle_Sys_Seek (fileDesc: int, newCurrentPos: int) returns int
       -- NOT IMPLEMENTED
-      print("Handle_Sys_Seek invoked! \n")
-      print("fileDesc = ")
-      printInt(fileDesc)
-      nl()
-      print("newCurrentPos = ")
-      printInt(newCurrentPos)
-      nl()
+      var
+        openingFile: ptr to OpenFile
+        sizeOfFile: int
+      fileManager.fileManagerLock.Lock()
+      if fileDesc < 0 || fileDesc >= MAX_FILES_PER_PROCESS || newCurrentPos < -1
+        fileManager.fileManagerLock.Unlock()
+        return -1
+
+      elseIf currentThread.myProcess.fileDescriptor[fileDesc] == null
+        fileManager.fileManagerLock.Unlock()
+        return -1
+      elseIf currentThread.myProcess.fileDescriptor[fileDesc].fcb.sizeOfFileInBytes < newCurrentPos
+        fileManager.fileManagerLock.Unlock()
+        return -1
+      enfIf
+
+      openingFile = currentThread.myProcess.fileDescriptor[fileDesc]
+      if newCurrentPos == -1
+        sizeOfFile = openingFile.fcb.sizeOfFileInBytes
+        openingFile.currentPos = sizeOfFile
+
+        fileManager.fileManagerLock.Unlock()
+        return sizeOfFile
+      endIf
+
+      openFile.currentPos = newCurrentPos
+      fileManager.fileManagerLock.Unlock()
+      return newCurrentPos
 
 
-	  return 8000
+
 
     endFunction
 
