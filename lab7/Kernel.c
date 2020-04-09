@@ -2387,7 +2387,7 @@ code Kernel
 -----------------------------  Handle_Sys_Close  ---------------------------------
 
   function Handle_Sys_Close (fileDesc: int)
-    if fileDesc > 0 && fileDesc > MAX_FILES_PER_PROCESS-1 && currentThread.myProcess.fileDescriptor[fileDesc] != null
+    if fileDesc >= 0 && fileDesc < MAX_FILES_PER_PROCESS && currentThread.myProcess.fileDescriptor[fileDesc] != null
        fileManager.Close(currentThread.myProcess.fileDescriptor[fileDesc])
        currentThread.myProcess.fileDescriptor[fileDesc] = null
     endIf
