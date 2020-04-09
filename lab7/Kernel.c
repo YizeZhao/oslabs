@@ -2054,14 +2054,8 @@ code Kernel
         idx: int
         newOF: ptr to OpenFile
         i: int
-      print("Handle_Sys_Open invoked! \n")
-      print("virt addr of filename = ")
-      printHex(filename asInteger)
-      nl()
-      print("filename = ")
-      ret = currentThread.myProcess.addrSpace.GetStringFromVirtual (&strBuffer,filename asInteger, MAX_STRING_SIZE)
-      print(&strBuffer)
-      nl()
+
+      ret = (*currentThread).myProcess.addrSpace.GetStringFromVirtual(&strBuffer,filename asInteger, MAX_STRING_SIZE)
 
       idx = -1
       for(i=0;i<MAX_FILES_PER_PROCESS;i=i+1)
