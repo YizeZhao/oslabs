@@ -2385,7 +2385,7 @@ code Kernel
       elseIf currentThread.myProcess.fileDescriptor[fileDesc].fcb.sizeOfFileInBytes < newCurrentPos
         fileManager.fileManagerLock.Unlock()
         return -1
-      enfIf
+      endIf
 
       openingFile = currentThread.myProcess.fileDescriptor[fileDesc]
       if newCurrentPos == -1
