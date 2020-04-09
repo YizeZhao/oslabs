@@ -1898,7 +1898,7 @@ code Kernel
 
       -- lab7, handle open files
       for (i=0;i<MAX_FILES_PER_PROCESS;i=i+1)
-        if currentThread.myProcess.fileDescriptor != null
+        if currentThread.myProcess.fileDescriptor[i] != null
           currentThread.myProcess.fileDescriptor[i].numberOfUsers = currentThread.myProcess.fileDescriptor[i].numberOfUsers + 1
           newTh.myProcess.fileDescriptor[i] = currentThread.myProcess.fileDescriptor[i]
         endIf
@@ -1910,7 +1910,7 @@ code Kernel
       frameManager.GetNewFrames(&(newPCB.addrSpace), numpages)
       for (i=0;i<numpages;i=i+1)    -- iterate throught all pages
       -- copy memory and read/write
-        MemoryCopy(newPCB.addrSpace.ExtractFrameAddr(i),currentThread.myProcess.addrSpace.ExtractFrameAddr(i), PAGE_SIZE)
+        MemoryCopy(newPCB.addrSpace.ExtractFrameAddr(i), currentThread.myProcess.addrSpace.ExtractFrameAddr(i), PAGE_SIZE)
         if (currentThread.myProcess.addrSpace.IsWritable(i) == true)
           newPCB.addrSpace.SetWritable(i)
 
